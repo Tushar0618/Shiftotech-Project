@@ -34,23 +34,18 @@ pipeline {
                               echo 'Build Completed'
                             '''
                         }
+                         script {
+                            docker.withRegistry("https://index.docker.io/v1/", "${DOCKER_CREDENTIALS_ID}") {
+                            sh '''
+                             echo "Pushing Image to Dockerhub"
+                             docker push pritam44/coding-cloud-backend:${BUILD_NUMBER}
+                             echo "Image Pushed Successfully"
+                            '''
+                          }
+                       }
                     }
                 }
 
-                stage('Push Image to Dockerhub') {
-                    agent { label 'docker' }
-                    steps {
-                        script {
-                            docker.withRegistry("https://index.docker.io/v1/", "${DOCKER_CREDENTIALS_ID}") {
-                            sh '''
-                              echo "Pushing Image to Dockerhub"
-                              docker push pritam44/coding-cloud-backend:${BUILD_NUMBER}
-                              echo "Image Pushed Successfully"
-                            '''
-                            }
-                        }
-                    }
-                }
 
                 stage('Update Backend Deployment') {
                     agent { label 'k8s-master' }
