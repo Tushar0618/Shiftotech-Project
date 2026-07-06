@@ -551,4 +551,4 @@ docker run -d -p 80:80 coding-cloud-frontend
 
 ---
 
-Made with ❤️ by **Pritam Phadtare**
+Made by Tushar Sharma**
